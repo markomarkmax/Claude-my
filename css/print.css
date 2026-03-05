@@ -1,0 +1,83 @@
+/* === Print/PDF Styles === */
+@media print {
+    * {
+        box-shadow: none !important;
+    }
+
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+    }
+
+    .app-header,
+    .app-nav,
+    .mode-toggle-wrapper,
+    .wizard-stepper,
+    .wizard-actions,
+    .btn,
+    .export-bar,
+    .show-all-btn,
+    .btn-detail,
+    .modal-overlay,
+    .app-footer {
+        display: none !important;
+    }
+
+    .app-section {
+        display: block !important;
+    }
+
+    .hidden {
+        display: none !important;
+    }
+
+    #results-section {
+        display: block !important;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .chart-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .bank-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        border: 1px solid #ddd;
+    }
+
+    .comparison-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    table {
+        font-size: 10pt;
+    }
+
+    .amort-table th,
+    .comparison-table th {
+        background: #f0f0f0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .disclaimer {
+        font-size: 8pt;
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
+    }
+}

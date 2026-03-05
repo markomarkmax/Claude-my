@@ -1,0 +1,119 @@
+/* === Tables === */
+.amort-table,
+.comparison-table,
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.amort-table th,
+.comparison-table th {
+    background: var(--bg-gray);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+}
+
+.amort-table td,
+.comparison-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text);
+}
+
+.amort-table tr:hover td,
+.comparison-table tr:hover td {
+    background: rgba(26, 86, 219, 0.02);
+}
+
+.comparison-table .row-rejected td {
+    opacity: 0.5;
+}
+
+/* Detail table */
+.detail-table {
+    margin-bottom: 16px;
+}
+
+.detail-table td {
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.detail-table td:first-child {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    width: 50%;
+}
+
+.detail-table td:last-child {
+    font-weight: 500;
+}
+
+.detail-table .note {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* Badges */
+.badge-ok {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #ecfdf5;
+    color: var(--secondary);
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-no {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #fef2f2;
+    color: var(--danger);
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Table wrapper for scroll */
+.table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 16px 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.table-wrapper table {
+    min-width: 600px;
+}
+
+/* Amortization controls */
+.amort-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+    .amort-table th,
+    .amort-table td,
+    .comparison-table th,
+    .comparison-table td {
+        padding: 6px 8px;
+        font-size: 0.8rem;
+    }
+}
