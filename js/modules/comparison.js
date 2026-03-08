@@ -7,22 +7,19 @@ const Comparison = {
     sortDirection: 'asc',
 
     /**
-     * Display comparison results
+     * Display comparison results – always shows all banks
      */
-    render(results, mode = 'client') {
+    render(results) {
         this.currentResults = results;
         const container = Helpers.$('#comparison-results');
         if (!container) return;
 
-        const limit = mode === 'client' ? 3 : results.length;
-        const shown = results.slice(0, limit);
-
         let html = '<div class="comparison-grid">';
 
-        shown.forEach((r, index) => {
+        results.forEach((r, index) => {
             const rank = index + 1;
             const statusClass = r.approved ? 'status-approved' : 'status-rejected';
-            const statusText = r.approved ? 'Schvalene' : 'Neschvalene';
+            const statusText = r.approved ? 'Schválené' : 'Neschválené';
             const bestClass = index === 0 && r.approved ? 'card-best' : '';
 
             html += `
@@ -34,25 +31,25 @@ const Comparison = {
                 </div>
                 <div class="bank-card-body">
                     <div class="bank-metric main-metric">
-                        <span class="metric-label">Mesacna splatka</span>
+                        <span class="metric-label">Mesačná splátka</span>
                         <span class="metric-value">${Formatting.eur(r.monthlyPayment)}</span>
                     </div>
                     <div class="bank-metrics-grid">
                         <div class="bank-metric">
-                            <span class="metric-label">Urokova sadzba</span>
+                            <span class="metric-label">Úroková sadzba</span>
                             <span class="metric-value">${Formatting.percent(r.effectiveRate)}</span>
-                            ${r.ltvSurcharge > 0 ? `<span class="metric-note">zaklad ${Formatting.percent(r.baseRate)} + LTV prirazka ${Formatting.percent(r.ltvSurcharge)}</span>` : ''}
+                            ${r.ltvSurcharge > 0 ? `<span class="metric-note">základná ${Formatting.percent(r.baseRate)} + LTV prirážka ${Formatting.percent(r.ltvSurcharge)}</span>` : ''}
                         </div>
                         <div class="bank-metric">
-                            <span class="metric-label">Celkove zaplatene uroky</span>
+                            <span class="metric-label">Celkové zaplatené úroky</span>
                             <span class="metric-value">${Formatting.eurShort(r.totalInterest)}</span>
                         </div>
                         <div class="bank-metric">
-                            <span class="metric-label">Celkova suma</span>
+                            <span class="metric-label">Celková suma</span>
                             <span class="metric-value">${Formatting.eurShort(r.totalPayment)}</span>
                         </div>
                         <div class="bank-metric">
-                            <span class="metric-label">Max. hypoteka</span>
+                            <span class="metric-label">Max. hypotéka</span>
                             <span class="metric-value">${Formatting.eurShort(r.maxMortgage)}</span>
                         </div>
                         <div class="bank-metric">
@@ -60,21 +57,17 @@ const Comparison = {
                             <span class="metric-value">${Formatting.percent(r.actualLTV, 1)}</span>
                         </div>
                         <div class="bank-metric">
-                            <span class="metric-label">Limitujuci faktor</span>
+                            <span class="metric-label">Limitujúci faktor</span>
                             <span class="metric-value">${r.limitingFactor}</span>
                         </div>
-                    </div>`;
-
-            // Advisor mode: show extra details
-            if (mode === 'advisor') {
-                html += `
+                    </div>
                     <div class="bank-details-extra">
                         <div class="bank-metric">
-                            <span class="metric-label">DTI multiplikator</span>
+                            <span class="metric-label">DTI multiplikátor</span>
                             <span class="metric-value">${r.dti.multiplier}x</span>
                         </div>
                         <div class="bank-metric">
-                            <span class="metric-label">Max. splatka (DSTI)</span>
+                            <span class="metric-label">Max. splátka (DSTI)</span>
                             <span class="metric-value">${Formatting.eur(r.dsti.maxPayment)}</span>
                         </div>
                         <div class="bank-metric">
@@ -82,17 +75,16 @@ const Comparison = {
                             <span class="metric-value">${Formatting.percent(r.dsti.stressRate)}</span>
                         </div>
                         <div class="bank-metric">
-                            <span class="metric-label">Zivotne minimum</span>
+                            <span class="metric-label">Životné minimum</span>
                             <span class="metric-value">${Formatting.eur(r.dsti.livingMinimum)}</span>
                         </div>
                         <div class="bank-metric">
                             <span class="metric-label">Vek pri splatnosti</span>
                             <span class="metric-value">${r.ageAtMaturity} rokov</span>
                         </div>
-                        ${r.bank.campaignNote ? `<div class="bank-campaign"><strong>Kampan:</strong> ${r.bank.campaignNote}</div>` : ''}
-                        ${r.bank.campaignValidUntil ? `<div class="bank-campaign-date">Platnost do: ${Formatting.date(r.bank.campaignValidUntil)}</div>` : ''}
+                        ${r.bank.campaignNote ? `<div class="bank-campaign"><strong>Kampaň:</strong> ${r.bank.campaignNote}</div>` : ''}
+                        ${r.bank.campaignValidUntil ? `<div class="bank-campaign-date">Platnosť do: ${Formatting.date(r.bank.campaignValidUntil)}</div>` : ''}
                     </div>`;
-            }
 
             // Warnings
             if (r.warnings.length > 0) {
@@ -112,19 +104,7 @@ const Comparison = {
         });
 
         html += '</div>';
-
-        if (mode === 'client' && results.length > 3) {
-            html += `<button class="btn btn-secondary show-all-btn" onclick="Comparison.showAll()">Zobrazit vsetky banky (${results.length})</button>`;
-        }
-
         container.innerHTML = html;
-    },
-
-    /**
-     * Show all banks
-     */
-    showAll() {
-        this.render(this.currentResults, 'advisor');
     },
 
     /**
@@ -134,8 +114,6 @@ const Comparison = {
         const bank = getBankById(bankId);
         if (!bank) return;
 
-        const result = this.currentResults.find(r => r.bank.id === bankId);
-
         let html = `
         <div class="modal-container">
         <div class="modal-header" style="border-color: ${bank.color}">
@@ -143,9 +121,9 @@ const Comparison = {
             <button class="modal-close" onclick="Comparison.closeDetail()">&times;</button>
         </div>
         <div class="modal-body">
-            <h3>Urokove sadzby</h3>
+            <h3>Úrokové sadzby</h3>
             <table class="detail-table">
-                <tr><th>Fixacia</th><th>Sadzba</th></tr>
+                <tr><th>Fixácia</th><th>Sadzba</th></tr>
                 ${['1','3','5','10','15','20'].map(f => {
                     const rate = bank.rates['fix' + f];
                     const campaign = bank.campaignRates['fix' + f];
@@ -155,47 +133,47 @@ const Comparison = {
             </table>
 
             ${bank.discounts.length > 0 ? `
-            <h3>Zlavy</h3>
+            <h3>Zľavy</h3>
             <ul>${bank.discounts.map(d => `<li>${d.name}: ${d.value > 0 ? '+' : ''}${Formatting.percent(d.value)}</li>`).join('')}</ul>
             ` : ''}
 
             <h3>LTV limity</h3>
             <table class="detail-table">
-                <tr><td>Standard</td><td>${bank.ltv.standard}%</td></tr>
+                <tr><td>Štandard</td><td>${bank.ltv.standard}%</td></tr>
                 <tr><td>Maximum</td><td>${bank.ltv.max}%</td></tr>
-                <tr><td>Prirazka nad ${bank.ltv.standard}%</td><td>+${Formatting.percent(bank.ltv.surchargeAbove80)}</td></tr>
+                <tr><td>Prirážka nad ${bank.ltv.standard}%</td><td>+${Formatting.percent(bank.ltv.surchargeAbove80)}</td></tr>
                 <tr><td>Pozemok</td><td>${bank.ltv.land}%</td></tr>
                 <tr><td>Pozemok so SP</td><td>${bank.ltv.landWithPermit}%</td></tr>
             </table>
 
-            <h3>Akceptacia prijmov</h3>
+            <h3>Akceptácia príjmov</h3>
             <table class="detail-table">
-                <tr><td>TPP</td><td>${bank.incomeAcceptance.tpp ? 'Ano' : 'Nie'}</td></tr>
-                <tr><td>SZCO</td><td>${bank.incomeAcceptance.szco ? 'Ano' : 'Nie'}</td></tr>
-                <tr><td>Dohoda o PP</td><td>${bank.incomeAcceptance.dohodaOPP ? 'Ano' : 'Nie'}</td></tr>
-                <tr><td>Dochodok</td><td>${bank.incomeAcceptance.pension ? 'Ano' : 'Nie'}</td></tr>
-                <tr><td>Materska</td><td>${bank.incomeAcceptance.maternity ? 'Ano' : 'Nie'}</td></tr>
-                <tr><td>Prijem z prenajmu</td><td>${bank.incomeAcceptance.rental ? 'Ano' : 'Nie'}</td></tr>
-                <tr><td>Prijem zo zahranicia</td><td>${bank.incomeAcceptance.abroad ? 'Ano' : 'Nie'}</td></tr>
+                <tr><td>TPP</td><td>${bank.incomeAcceptance.tpp ? 'Áno' : 'Nie'}</td></tr>
+                <tr><td>SZČO</td><td>${bank.incomeAcceptance.szco ? 'Áno' : 'Nie'}</td></tr>
+                <tr><td>Dohoda o PP</td><td>${bank.incomeAcceptance.dohodaOPP ? 'Áno' : 'Nie'}</td></tr>
+                <tr><td>Dôchodok</td><td>${bank.incomeAcceptance.pension ? 'Áno' : 'Nie'}</td></tr>
+                <tr><td>Materská</td><td>${bank.incomeAcceptance.maternity ? 'Áno' : 'Nie'}</td></tr>
+                <tr><td>Príjem z prenájmu</td><td>${bank.incomeAcceptance.rental ? 'Áno' : 'Nie'}</td></tr>
+                <tr><td>Príjem zo zahraničia</td><td>${bank.incomeAcceptance.abroad ? 'Áno' : 'Nie'}</td></tr>
                 ${bank.incomeAcceptance.abroadNote ? `<tr><td colspan="2" class="note">${bank.incomeAcceptance.abroadNote}</td></tr>` : ''}
             </table>
 
             <h3>Poplatky</h3>
             <table class="detail-table">
-                <tr><td>Spracovatelsky poplatok</td><td>${bank.fees.processing === 0 ? 'Zdarma' : Formatting.eur(bank.fees.processing)}</td></tr>
-                <tr><td>Ohodnotenie nehnutelnosti</td><td>${bank.fees.propertyValuation === 0 ? 'Zdarma' : Formatting.eur(bank.fees.propertyValuation)}</td></tr>
-                <tr><td>Mimoriadna splatka (free)</td><td>${bank.fees.extraPaymentFree}% rocne</td></tr>
+                <tr><td>Spracovateľský poplatok</td><td>${bank.fees.processing === 0 ? 'Zadarmo' : Formatting.eur(bank.fees.processing)}</td></tr>
+                <tr><td>Ohodnotenie nehnuteľnosti</td><td>${bank.fees.propertyValuation === 0 ? 'Zadarmo' : Formatting.eur(bank.fees.propertyValuation)}</td></tr>
+                <tr><td>Mimoriadna splátka (free)</td><td>${bank.fees.extraPaymentFree}% ročne</td></tr>
             </table>
 
             <h3>Podmienky</h3>
             <table class="detail-table">
-                <tr><td>Min. uver</td><td>${Formatting.eur(bank.minLoan, 0)}</td></tr>
-                <tr><td>Splatnost</td><td>${bank.loanTerms.minYears} - ${bank.loanTerms.maxYears} rokov</td></tr>
+                <tr><td>Min. úver</td><td>${Formatting.eur(bank.minLoan, 0)}</td></tr>
+                <tr><td>Splatnosť</td><td>${bank.loanTerms.minYears} – ${bank.loanTerms.maxYears} rokov</td></tr>
                 <tr><td>Max. vek pri splatnosti</td><td>${bank.loanTerms.maxAgeAtMaturity} rokov</td></tr>
             </table>
 
             ${bank.specialFeatures.length > 0 ? `
-            <h3>Specialne vlastnosti</h3>
+            <h3>Špeciálne vlastnosti</h3>
             <ul>${bank.specialFeatures.map(f => `<li>${f}</li>`).join('')}</ul>
             ` : ''}
 
@@ -228,11 +206,11 @@ const Comparison = {
     },
 
     /**
-     * Build comparison summary table (for advisor mode)
+     * Build comparison summary table
      */
     renderSummaryTable(results) {
         let html = '<table class="comparison-table"><thead><tr>';
-        html += '<th>Banka</th><th>Sadzba</th><th>Splatka</th><th>Celk. uroky</th><th>Max. hypoteka</th><th>LTV</th><th>Status</th>';
+        html += '<th>Banka</th><th>Sadzba</th><th>Splátka</th><th>Celk. úroky</th><th>Max. hypotéka</th><th>LTV</th><th>Stav</th>';
         html += '</tr></thead><tbody>';
 
         for (const r of results) {

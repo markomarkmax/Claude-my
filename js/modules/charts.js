@@ -26,7 +26,7 @@ const Charts = {
         this.instances[canvasId] = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['Istina', 'Uroky'],
+                labels: ['Istina', 'Úroky'],
                 datasets: [{
                     data: [principal, totalInterest],
                     backgroundColor: ['#1a56db', '#f59e0b'],
@@ -73,7 +73,7 @@ const Charts = {
                 labels,
                 datasets: [
                     {
-                        label: 'Splatka istiny (rocne)',
+                        label: 'Splátka istiny (ročne)',
                         data: principalData,
                         borderColor: '#1a56db',
                         backgroundColor: 'rgba(26, 86, 219, 0.1)',
@@ -81,7 +81,7 @@ const Charts = {
                         tension: 0.3
                     },
                     {
-                        label: 'Uroky (rocne)',
+                        label: 'Úroky (ročne)',
                         data: interestData,
                         borderColor: '#f59e0b',
                         backgroundColor: 'rgba(245, 158, 11, 0.1)',
@@ -89,7 +89,7 @@ const Charts = {
                         tension: 0.3
                     },
                     {
-                        label: 'Zostatok uveru',
+                        label: 'Zostatok úveru',
                         data: balanceData,
                         borderColor: '#059669',
                         borderDash: [5, 5],
@@ -113,7 +113,7 @@ const Charts = {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        title: { display: true, text: 'EUR (rocne)' },
+                        title: { display: true, text: 'EUR (ročne)' },
                         ticks: { callback: v => Formatting.eurShort(v) }
                     },
                     y1: {
@@ -141,10 +141,10 @@ const Charts = {
         const colors = results.map(r => r.bank.color);
 
         const metricLabels = {
-            monthlyPayment: 'Mesacna splatka (EUR)',
-            totalInterest: 'Celkove uroky (EUR)',
-            effectiveRate: 'Efektivna sadzba (%)',
-            maxMortgage: 'Max. hypoteka (EUR)'
+            monthlyPayment: 'Mesačná splátka (EUR)',
+            totalInterest: 'Celkové úroky (EUR)',
+            effectiveRate: 'Efektívna sadzba (%)',
+            maxMortgage: 'Max. hypotéka (EUR)'
         };
 
         this.instances[canvasId] = new Chart(ctx, {
@@ -206,9 +206,9 @@ const Charts = {
             pessimistic: '#dc2626'
         };
         const scenarioNames = {
-            optimistic: 'Optimisticky',
-            realistic: 'Realisticky',
-            pessimistic: 'Pesimisticky'
+            optimistic: 'Optimistický',
+            realistic: 'Realistický',
+            pessimistic: 'Pesimistický'
         };
 
         for (const [name, s] of Object.entries(analysis.scenarios)) {

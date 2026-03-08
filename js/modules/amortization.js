@@ -112,9 +112,9 @@ const Amortization = {
 
         let html = '<table class="amort-table"><thead><tr>';
         html += `<th>${isYearly ? 'Rok' : 'Mesiac'}</th>`;
-        html += '<th>Splatka</th>';
+        html += '<th>Splátka</th>';
         html += '<th>Istina</th>';
-        html += '<th>Uroky</th>';
+        html += '<th>Úroky</th>';
         html += '<th>Zostatok</th>';
         html += '</tr></thead><tbody>';
 

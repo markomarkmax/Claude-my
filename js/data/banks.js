@@ -1,12 +1,12 @@
 /**
  * Complete bank data for 8 Slovak banks
- * Source: Prosight materials, March 2026
+ * Source: Verejné sadzobníky bánk, marec 2026
  * Update: Manually edit this file when rates change
  */
 const BANKS = [
     {
         id: 'slsp',
-        name: 'Slovenska sporitelna',
+        name: 'Slovenská sporiteľňa',
         shortName: 'SLSP',
         color: '#0066b3',
         rates: {
@@ -20,11 +20,11 @@ const BANKS = [
         campaignRates: {
             fix3: 3.19,  // with account (-0.5%) and insurance (-0.2%) discounts at max 80% LTV
         },
-        campaignNote: 'FIX 3: 3,19% so zlavami za ucet (-0,5%) a uverove poistenie (-0,2%) pri max 80% LTV',
+        campaignNote: 'FIX 3: 3,19% so zľavami za účet (−0,5%) a úverové poistenie (−0,2%) pri max 80% LTV',
         campaignValidUntil: '2026-04-30',
         discounts: [
-            { name: 'Ucet v SLSP', value: -0.50 },
-            { name: 'Uverove poistenie', value: -0.20 }
+            { name: 'Účet v SLSP', value: -0.50 },
+            { name: 'Úverové poistenie', value: -0.20 }
         ],
         fees: {
             processing: 0,           // EUR, often waived in campaigns
@@ -57,23 +57,23 @@ const BANKS = [
             maternity: true,
             rental: true,        // rental income
             abroad: true,        // income from abroad
-            abroadNote: 'EU + vybrane krajiny, overovanie individualne'
+            abroadNote: 'EÚ + vybrané krajiny, overovanie individuálne'
         },
         refinancing: {
             available: true,
             minMonths: 0,
-            note: 'Moznost refinancovania kedykolvek'
+            note: 'Možnosť refinancovania kedykoľvek'
         },
         specialFeatures: [
-            'Najvacsia siet pobociek na Slovensku',
-            'George app s kompletnym prehladom',
-            'Moznost predcasneho splatenia 20% rocne bez poplatku'
+            'Najväčšia sieť pobočiek na Slovensku',
+            'George app s kompletným prehľadom',
+            'Možnosť predčasného splatenia 20% ročne bez poplatku'
         ],
-        notes: 'Najvacsia banka na Slovensku. Kampanove sadzby vyzaduju aktivny ucet a uverove poistenie.'
+        notes: 'Najväčšia banka na Slovensku. Kampaňové sadzby vyžadujú aktívny účet a úverové poistenie.'
     },
     {
         id: 'vub',
-        name: 'Vseobecna uverova banka',
+        name: 'Všeobecná úverová banka',
         shortName: 'VUB',
         color: '#00843d',
         rates: {
@@ -119,7 +119,7 @@ const BANKS = [
             maternity: true,
             rental: true,
             abroad: true,
-            abroadNote: 'EU krajiny, individualne posudenie'
+            abroadNote: 'EÚ krajiny, individuálne posúdenie'
         },
         refinancing: {
             available: true,
@@ -127,11 +127,11 @@ const BANKS = [
             note: ''
         },
         specialFeatures: [
-            'Sucast skupiny Intesa Sanpaolo',
-            'Digitalne podpisovanie zmluv',
-            'Flexibilne moznosti mimoriadnych splatok'
+            'Súčasť skupiny Intesa Sanpaolo',
+            'Digitálne podpisovanie zmlúv',
+            'Flexibilné možnosti mimoriadnych splátok'
         ],
-        notes: 'Druha najvacsia banka na Slovensku. Stabilne sadzby bez velkych kampanovych zliav.'
+        notes: 'Druhá najväčšia banka na Slovensku. Stabilné sadzby bez veľkých kampaňových zliav.'
     },
     {
         id: 'tatra',
@@ -181,7 +181,7 @@ const BANKS = [
             maternity: true,
             rental: true,
             abroad: true,
-            abroadNote: 'EU + USA, UK, Svajciarsko'
+            abroadNote: 'EÚ + USA, UK, Švajčiarsko'
         },
         refinancing: {
             available: true,
@@ -189,11 +189,11 @@ const BANKS = [
             note: ''
         },
         specialFeatures: [
-            'Premium bankovnictvo pre vyssie prijmy',
-            'Tatra banka app - najlepsie hodnotena',
-            'Moznost kombinacie s investicnym ucetom'
+            'Prémiové bankovníctvo pre vyššie príjmy',
+            'Tatra banka app – najlepšie hodnotená',
+            'Možnosť kombinácie s investičným účtom'
         ],
-        notes: 'Premiova banka s vysokou kvalitou sluzieb. Vyssie poplatky za ohodnotenie.'
+        notes: 'Prémiová banka s vysokou kvalitou služieb. Vyššie poplatky za ohodnotenie.'
     },
     {
         id: 'csob',
@@ -243,7 +243,7 @@ const BANKS = [
             maternity: true,
             rental: true,
             abroad: true,
-            abroadNote: 'EU krajiny'
+            abroadNote: 'EÚ krajiny'
         },
         refinancing: {
             available: true,
@@ -251,11 +251,11 @@ const BANKS = [
             note: ''
         },
         specialFeatures: [
-            'Sucast skupiny KBC',
-            'CSOB SmartBanking',
-            'Jednoduchny online proces'
+            'Súčasť skupiny KBC',
+            'ČSOB SmartBanking',
+            'Jednoduchý online proces'
         ],
-        notes: 'Silna banka so stabilnymi podmienkami. Vyssia sadzba pri FIX1.'
+        notes: 'Silná banka so stabilnými podmienkami. Vyššia sadzba pri FIX1.'
     },
     {
         id: 'prima',
@@ -305,19 +305,19 @@ const BANKS = [
             maternity: false,
             rental: false,
             abroad: false,
-            abroadNote: 'Len prijem zo SR'
+            abroadNote: 'Len príjem zo SR'
         },
         refinancing: {
             available: true,
             minMonths: 6,
-            note: 'Min. 6 mesiacov existujuceho uveru'
+            note: 'Min. 6 mesiacov existujúceho úveru'
         },
         specialFeatures: [
-            'Jednoduche podmienky',
-            'Rychle schvalenie',
-            'Nizke poplatky za ohodnotenie'
+            'Jednoduché podmienky',
+            'Rýchle schválenie',
+            'Nízke poplatky za ohodnotenie'
         ],
-        notes: 'Mensia banka s obmedzenym rozsahom fixacii. Neakceptuje prijem zo zahranicia.'
+        notes: 'Menšia banka s obmedzeným rozsahom fixácií. Neakceptuje príjem zo zahraničia.'
     },
     {
         id: 'unicredit',
@@ -367,7 +367,7 @@ const BANKS = [
             maternity: true,
             rental: true,
             abroad: true,
-            abroadNote: 'EU + vyber dalsich krajin'
+            abroadNote: 'EÚ + výber ďalších krajín'
         },
         refinancing: {
             available: true,
@@ -375,11 +375,11 @@ const BANKS = [
             note: ''
         },
         specialFeatures: [
-            'Najnizsia sadzba FIX3 na trhu (3,09%)',
-            'Sucast medzinarodnej skupiny UniCredit',
-            'Individualne podmienky pre vyssie uvery'
+            'Najnižšia sadzba FIX3 na trhu (3,09%)',
+            'Súčasť medzinárodnej skupiny UniCredit',
+            'Individuálne podmienky pre vyššie úvery'
         ],
-        notes: 'Najlepsie FIX3 sadzby na trhu. Obmedzena ponuka fixacii (len 3 a 5 rokov).'
+        notes: 'Najlepšie FIX3 sadzby na trhu. Obmedzená ponuka fixácií (len 3 a 5 rokov).'
     },
     {
         id: '365bank',
@@ -429,7 +429,7 @@ const BANKS = [
             maternity: true,
             rental: true,
             abroad: true,
-            abroadNote: 'EU krajiny'
+            abroadNote: 'EÚ krajiny'
         },
         refinancing: {
             available: true,
@@ -437,11 +437,11 @@ const BANKS = [
             note: ''
         },
         specialFeatures: [
-            'Plne digitalna banka',
-            'Nizka sadzba FIX1 (3,55%)',
-            'Rychly online proces bez navstevy pobocky'
+            'Plne digitálna banka',
+            'Nízka sadzba FIX1 (3,55%)',
+            'Rýchly online proces bez návštevy pobočky'
         ],
-        notes: 'Digitalny naslednik Postovej banky. Dobra ponuka na kratke fixacie.'
+        notes: 'Digitálny nástupca Poštovej banky. Dobrá ponuka na krátke fixácie.'
     },
     {
         id: 'mbank',
@@ -491,7 +491,7 @@ const BANKS = [
             maternity: false,
             rental: true,
             abroad: true,
-            abroadNote: 'EU krajiny + individualne'
+            abroadNote: 'EÚ krajiny + individuálne'
         },
         refinancing: {
             available: true,
@@ -499,11 +499,11 @@ const BANKS = [
             note: ''
         },
         specialFeatures: [
-            'Online banka - vsetko cez internet',
-            'Bezplatne ohodnotenie nehnutelnosti',
-            'Nizke poplatky'
+            'Online banka – všetko cez internet',
+            'Bezplatné ohodnotenie nehnuteľnosti',
+            'Nízke poplatky'
         ],
-        notes: 'Online banka s dobrymi sadzbami na FIX3. Vyssia prirazka pri LTV > 80%.'
+        notes: 'Online banka s dobrými sadzbami na FIX3. Vyššia prirážka pri LTV > 80%.'
     }
 ];
 

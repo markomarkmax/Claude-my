@@ -5,51 +5,51 @@ const Glossary = {
     terms: {
         'DTI': {
             short: 'Debt-to-Income',
-            full: 'Pomer celkoveho dlhu k prijmu. NBS stanovuje limit 8-nasobok cisteho rocneho prijmu. Pre mladych do 35 rokov mozu banky udelit vynimku na 9-nasobok (max 5% vynimiek).'
+            full: 'Pomer celkového dlhu k príjmu. NBS stanovuje limit 8-násobok čistého ročného príjmu. Pre mladých do 35 rokov môžu banky udeliť výnimku na 9-násobok (max 5% výnimiek).'
         },
         'DSTI': {
             short: 'Debt Service-to-Income',
-            full: 'Pomer mesacnych splatok k prijmu. Splatky nesmiu presianut 60% z (cisty prijem - zivotne minimum). Banka pocita so stress testom (aktualna sadzba + 2%, min. 5%).'
+            full: 'Pomer mesačných splátok k príjmu. Splátky nesmú presiahnuť 60% z (čistý príjem − životné minimum). Banka počíta so stress testom (aktuálna sadzba + 2%, min. 5%).'
         },
         'LTV': {
             short: 'Loan-to-Value',
-            full: 'Pomer vysky uveru k hodnote nehnutelnosti. Standardne max 80%, s prirazkou az 90%. Pozemky 50-80% podla banky a stavebneho povolenia.'
+            full: 'Pomer výšky úveru k hodnote nehnuteľnosti. Štandardne max 80%, s prirážkou až 90%. Pozemky 50–80% podľa banky a stavebného povolenia.'
         },
         'Stress test': {
-            short: 'Zatazova skuska',
-            full: 'Banka overuje, ci klient zvladne splatky aj pri zvyseni urokovej sadzby o 2% (alebo min. 5%). Sluzi na ochranu pred rastom urokov pri refixacii.'
+            short: 'Záťažová skúška',
+            full: 'Banka overuje, či klient zvládne splátky aj pri zvýšení úrokovej sadzby o 2% (alebo min. 5%). Slúži na ochranu pred rastom úrokov pri refixácii.'
         },
-        'Fixacia': {
-            short: 'Fixna urokova sadzba',
-            full: 'Obdobie, pocas ktoreho sa urokova sadzba nemeni (1, 3, 5, 10, 15 alebo 20 rokov). Po skonceni fixacie banka ponukne novu sadzbu - klient moze refinancovat.'
+        'Fixácia': {
+            short: 'Fixná úroková sadzba',
+            full: 'Obdobie, počas ktorého sa úroková sadzba nemení (1, 3, 5, 10, 15 alebo 20 rokov). Po skončení fixácie banka ponúkne novú sadzbu – klient môže refinancovať.'
         },
-        'Anuitna splatka': {
-            short: 'Mesacna splatka',
-            full: 'Stala mesacna splatka pocas fixacneho obdobia. Sklada sa z istiny (rastie) a urokov (klesa). Vzorec: M = P * [r(1+r)^n] / [(1+r)^n - 1].'
+        'Anuita': {
+            short: 'Mesačná splátka',
+            full: 'Stála mesačná splátka počas fixačného obdobia. Skladá sa z istiny (rastie) a úrokov (klesá). Vzorec: M = P × [r(1+r)^n] / [(1+r)^n − 1].'
         },
         'RPMN': {
-            short: 'Rocna percentualna miera nakladov',
-            full: 'Celkova cena uveru vyjadrena v percentach rocne. Zahrna uroky aj vsetky poplatky (spracovanie, ohodnotenie, poistenie). Umoznuje realne porovnanie ponuk.'
+            short: 'Ročná percentuálna miera nákladov',
+            full: 'Celková cena úveru vyjadrená v percentách ročne. Zahŕňa úroky aj všetky poplatky (spracovanie, ohodnotenie, poistenie). Umožňuje reálne porovnanie ponúk.'
         },
-        'Refixacia': {
-            short: 'Zmena urokovej sadzby',
-            full: 'Po skonceni fixacneho obdobia banka ponukne novu sadzbu. Klient moze suhlasit, alebo refinancovat uver v inej banke bez poplatku.'
+        'Refixácia': {
+            short: 'Zmena úrokovej sadzby',
+            full: 'Po skončení fixačného obdobia banka ponúkne novú sadzbu. Klient môže súhlasiť, alebo refinancovať úver v inej banke bez poplatku.'
         },
-        'Zivotne minimum': {
-            short: 'ZM - zakladna suma pre DSTI',
-            full: 'Suma, ktoru banka odpocita od prijmu pred vypoctom DSTI. Plnoleta osoba: 284,13 EUR, dalsi dospely: 198,22 EUR, dieta: 129,74 EUR (platne od 1.7.2025).'
+        'Životné minimum': {
+            short: 'ŽM – základná suma pre DSTI',
+            full: 'Suma, ktorú banka odpočíta od príjmu pred výpočtom DSTI. Plnoletá osoba: 284,13 EUR, ďalší dospelý: 198,22 EUR, dieťa: 129,74 EUR (platné od 1.7.2025).'
         },
         'Cap Rate': {
-            short: 'Kapitalizacna miera',
-            full: 'Pomer cisteho rocneho prijmu z nehnutelnosti k jej hodnote. Ukazuje vynosnost investicie bez ohadu na financovanie. Dobre hodnoty: 4-8%.'
+            short: 'Kapitalizačná miera',
+            full: 'Pomer čistého ročného príjmu z nehnuteľnosti k jej hodnote. Ukazuje výnosnosť investície bez ohľadu na financovanie. Dobré hodnoty: 4–8%.'
         },
         'IRR': {
             short: 'Internal Rate of Return',
-            full: 'Vnutorne vynosove percento. Zohladnuje casovu hodnotu penazi a vsetky cash flow (pociatocna investicia, rocne prijmy, predaj). Umoznuje porovnanie s inymi investiciami.'
+            full: 'Vnútorné výnosové percento. Zohľadňuje časovú hodnotu peňazí a všetky cash flow (počiatočná investícia, ročné príjmy, predaj). Umožňuje porovnanie s inými investíciami.'
         },
         'ROI': {
             short: 'Return on Investment',
-            full: 'Navratnost investicie v percentach. Vypocet: (celkovy zisk - pociatocna investicia) / pociatocna investicia * 100.'
+            full: 'Návratnosť investície v percentách. Výpočet: (celkový zisk − počiatočná investícia) / počiatočná investícia × 100.'
         }
     },
 

@@ -248,58 +248,58 @@ const Investment = {
 
         let html = `
         <div class="investment-section">
-            <h3>Mesacny cash flow</h3>
+            <h3>Mesačný cash flow</h3>
             <div class="investment-grid">
                 <div class="inv-metric ${cf.cashFlowPositive ? 'positive' : 'negative'}">
-                    <span class="metric-label">Cisty mesacny cash flow</span>
+                    <span class="metric-label">Čistý mesačný cash flow</span>
                     <span class="metric-value">${Formatting.eur(cf.netCashFlow)}</span>
                 </div>
                 <div class="inv-metric">
-                    <span class="metric-label">Efektivny najem</span>
+                    <span class="metric-label">Efektívny nájom</span>
                     <span class="metric-value">${Formatting.eur(cf.effectiveRent)}</span>
                 </div>
                 <div class="inv-metric">
-                    <span class="metric-label">Celkove vydavky</span>
+                    <span class="metric-label">Celkové výdavky</span>
                     <span class="metric-value">${Formatting.eur(cf.totalExpenses)}</span>
                 </div>
             </div>
         </div>
 
         <div class="investment-section">
-            <h3>Dane z prenajmu (rocne)</h3>
+            <h3>Dane z prenájmu (ročne)</h3>
             <div class="investment-grid">
                 <div class="inv-metric">
-                    <span class="metric-label">Pausalne vydavky (60%)</span>
-                    <span class="metric-value">Dan: ${Formatting.eur(tax.flatRate.tax)}</span>
+                    <span class="metric-label">Paušálne výdavky (60%)</span>
+                    <span class="metric-value">Daň: ${Formatting.eur(tax.flatRate.tax)}</span>
                 </div>
                 <div class="inv-metric">
-                    <span class="metric-label">Skutocne vydavky + odpisy</span>
-                    <span class="metric-value">Dan: ${Formatting.eur(tax.actual.tax)}</span>
+                    <span class="metric-label">Skutočné výdavky + odpisy</span>
+                    <span class="metric-value">Daň: ${Formatting.eur(tax.actual.tax)}</span>
                 </div>
                 <div class="inv-metric highlight">
-                    <span class="metric-label">Lepsia metoda</span>
-                    <span class="metric-value">${tax.betterMethod === 'flat' ? 'Pausalne' : 'Skutocne'} (${Formatting.eur(tax.optimalTax)}/rok)</span>
+                    <span class="metric-label">Lepšia metóda</span>
+                    <span class="metric-value">${tax.betterMethod === 'flat' ? 'Paušálne' : 'Skutočné'} (${Formatting.eur(tax.optimalTax)}/rok)</span>
                 </div>
             </div>
         </div>
 
         <div class="investment-section">
-            <h3>Kapitalizacna miera (Cap Rate)</h3>
+            <h3>Kapitalizačná miera (Cap Rate)</h3>
             <div class="inv-metric">
                 <span class="metric-value big">${Formatting.percent(analysis.capRate)}</span>
             </div>
         </div>
 
         <div class="investment-section">
-            <h3>Scenare (${analysis.params.holdingYears || 10} rokov)</h3>
+            <h3>Scenáre (${analysis.params.holdingYears || 10} rokov)</h3>
             <table class="comparison-table">
                 <thead><tr>
-                    <th>Scenar</th><th>Rast ceny</th><th>Buducnost</th><th>ROI</th><th>IRR</th>
+                    <th>Scenár</th><th>Rast ceny</th><th>Budúcnosť</th><th>ROI</th><th>IRR</th>
                 </tr></thead>
                 <tbody>
                 ${Object.entries(analysis.scenarios).map(([name, s]) => `
                     <tr>
-                        <td>${name === 'optimistic' ? 'Optimisticky' : name === 'realistic' ? 'Realisticky' : 'Pesimisticky'}</td>
+                        <td>${name === 'optimistic' ? 'Optimistický' : name === 'realistic' ? 'Realistický' : 'Pesimistický'}</td>
                         <td>${Formatting.percent(s.appreciation)}/rok</td>
                         <td>${Formatting.eurShort(s.futureValue)}</td>
                         <td>${Formatting.percent(s.roi, 1)}</td>
@@ -313,17 +313,17 @@ const Investment = {
         ${analysis.breakEvenMonths != null ? `
         <div class="investment-section">
             <h3>Break-even</h3>
-            <p>Investicia sa vrati za <strong>${Formatting.months(analysis.breakEvenMonths)}</strong> (${(analysis.breakEvenMonths / 12).toFixed(1)} roka).</p>
-        </div>` : '<div class="investment-section"><h3>Break-even</h3><p>Investicia sa z cash flow nevrati v danom obdobi.</p></div>'}
+            <p>Investícia sa vráti za <strong>${Formatting.months(analysis.breakEvenMonths)}</strong> (${(analysis.breakEvenMonths / 12).toFixed(1)} roka).</p>
+        </div>` : '<div class="investment-section"><h3>Break-even</h3><p>Investícia sa z cash flow nevráti v danom období.</p></div>'}
 
         <div class="investment-section">
-            <h3>Porovnanie s alternativami</h3>
+            <h3>Porovnanie s alternatívami</h3>
             <table class="comparison-table">
-                <thead><tr><th>Investicia</th><th>Vynosnost</th><th>Hodnota</th><th>Zisk</th></tr></thead>
+                <thead><tr><th>Investícia</th><th>Výnosnosť</th><th>Hodnota</th><th>Zisk</th></tr></thead>
                 <tbody>
                 ${Object.entries(analysis.alternatives).map(([name, a]) => `
                     <tr>
-                        <td>${name === 'etf' ? 'ETF fondy' : name === 'bonds' ? 'Dlhopisy' : 'Terminovany vklad'}</td>
+                        <td>${name === 'etf' ? 'ETF fondy' : name === 'bonds' ? 'Dlhopisy' : 'Termínovaný vklad'}</td>
                         <td>${Formatting.percent(a.rate)}/rok</td>
                         <td>${Formatting.eurShort(a.futureValue)}</td>
                         <td>${Formatting.eurShort(a.totalReturn)}</td>

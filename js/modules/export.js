@@ -37,11 +37,11 @@ const Export = {
             await html2pdf().set(opt).from(content).save();
         } catch (err) {
             console.error('PDF export failed:', err);
-            alert('Export PDF zlyhal. Skuste to prosim znova.');
+            alert('Export PDF zlyhal. Skúste to prosím znova.');
         } finally {
             if (btn) {
                 btn.disabled = false;
-                btn.textContent = 'Exportovat PDF';
+                btn.textContent = 'Exportovať PDF';
             }
         }
     },
@@ -53,9 +53,9 @@ const Export = {
         if (!results || results.length === 0) return;
 
         const headers = [
-            'Banka', 'Sadzba (%)', 'Efektivna sadzba (%)', 'Mesacna splatka (EUR)',
-            'Celkove uroky (EUR)', 'Celkova suma (EUR)', 'Max. hypoteka (EUR)',
-            'LTV (%)', 'Schvalene', 'Limitujuci faktor'
+            'Banka', 'Sadzba (%)', 'Efektívna sadzba (%)', 'Mesačná splátka (EUR)',
+            'Celkové úroky (EUR)', 'Celková suma (EUR)', 'Max. hypotéka (EUR)',
+            'LTV (%)', 'Schválené', 'Limitujúci faktor'
         ];
 
         const rows = results.map(r => [
@@ -67,7 +67,7 @@ const Export = {
             r.totalPayment.toFixed(2),
             r.maxMortgage.toFixed(2),
             r.actualLTV.toFixed(1),
-            r.approved ? 'Ano' : 'Nie',
+            r.approved ? 'Áno' : 'Nie',
             r.limitingFactor
         ]);
 
@@ -90,7 +90,7 @@ const Export = {
      * Export amortization table to CSV
      */
     amortizationCSV(schedule) {
-        const headers = ['Mesiac', 'Splatka (EUR)', 'Istina (EUR)', 'Uroky (EUR)', 'Zostatok (EUR)'];
+        const headers = ['Mesiac', 'Splátka (EUR)', 'Istina (EUR)', 'Úroky (EUR)', 'Zostatok (EUR)'];
 
         let csv = '\uFEFF';
         csv += headers.join(';') + '\n';

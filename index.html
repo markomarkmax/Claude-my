@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="sk" data-mode="client">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hypotekovy poradca | Slovensko</title>
-    <meta name="description" content="Kalkulacka a poradca pre hypoteky na Slovensku. Porovnanie 8 bank, NBS pravidla, investicna analyza.">
+    <title>HypoPoradca | Hypotekálny poradca pre Slovensko</title>
+    <meta name="description" content="Kalkulačka a poradca pre hypotéky na Slovensku. Porovnanie 8 bánk, pravidlá NBS, investičná analýza.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,22 +26,14 @@
     <div class="container header-inner">
         <a href="#" class="app-logo" onclick="App.showSection('wizard'); return false;">
             <span class="logo-icon">&#127968;</span>
-            <h1>Hypotekovy poradca</h1>
+            <h1>HypoPoradca</h1>
         </a>
 
         <nav class="app-nav">
-            <a href="#" data-nav="wizard" class="active">Kalkulacka</a>
+            <a href="#" data-nav="wizard" class="active">Kalkulačka</a>
             <a href="#" data-nav="banks">Banky</a>
-            <a href="#" data-nav="glossary">Slovnik</a>
+            <a href="#" data-nav="glossary">Slovník</a>
         </nav>
-
-        <div class="mode-toggle-wrapper">
-            <label class="mode-switch">
-                <input type="checkbox" id="mode-toggle">
-                <span class="mode-slider"></span>
-            </label>
-            <span id="mode-label">Klientsky rezim</span>
-        </div>
     </div>
 </header>
 
@@ -49,36 +41,54 @@
 <main class="app-main">
     <div class="container">
 
-        <!-- === SECTION: Wizard / Calculator === -->
+        <!-- === SEKCIA: Wizard / Kalkulačka === -->
         <section id="section-wizard" class="app-section active">
 
-            <!-- Stepper -->
-            <div class="wizard-stepper">
+            <!-- Voľba režimu (zobrazí sa ako prvá, pred stepperom) -->
+            <div id="step-mode-select" class="mode-select-card">
+                <h2 class="mode-select-title">Čo chcete zistiť?</h2>
+                <p class="mode-select-desc">Vyberte si, čo vás zaujíma – podľa toho prispôsobíme postup výpočtu.</p>
+                <div class="mode-choice-grid">
+                    <button class="mode-choice-btn" onclick="Wizard.selectMode('max')">
+                        <span class="mode-choice-icon">&#128200;</span>
+                        <span class="mode-choice-title">Maximálna výška hypotéky</span>
+                        <span class="mode-choice-desc">Zistite, na akú výšku hypotéky máte nárok na základe vašich príjmov a záväzkov.</span>
+                    </button>
+                    <button class="mode-choice-btn" onclick="Wizard.selectMode('verify')">
+                        <span class="mode-choice-icon">&#9989;</span>
+                        <span class="mode-choice-title">Overenie konkrétnej sumy</span>
+                        <span class="mode-choice-desc">Máte konkrétnu sumu? Zistite, či vám ju banky schvália a porovnajte podmienky.</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stepper (skrytý, kým sa nevyberie režim) -->
+            <div class="wizard-stepper hidden" id="wizard-stepper">
                 <div class="step-indicator active" data-step="1">
                     <div class="step-circle">1</div>
-                    <span class="step-label">Ucel</span>
+                    <span class="step-label" id="step-label-1">Účel</span>
                 </div>
                 <div class="step-connector"></div>
                 <div class="step-indicator" data-step="2">
                     <div class="step-circle">2</div>
-                    <span class="step-label">Nehnutelnost</span>
+                    <span class="step-label" id="step-label-2">Financie</span>
                 </div>
                 <div class="step-connector"></div>
                 <div class="step-indicator" data-step="3">
                     <div class="step-circle">3</div>
-                    <span class="step-label">Financie</span>
+                    <span class="step-label" id="step-label-3">Výsledky</span>
                 </div>
                 <div class="step-connector"></div>
                 <div class="step-indicator" data-step="4">
                     <div class="step-circle">4</div>
-                    <span class="step-label">Vysledky</span>
+                    <span class="step-label" id="step-label-4">Analýza</span>
                 </div>
             </div>
 
-            <!-- Step 1: Purpose -->
-            <div class="wizard-step active card" data-step="1">
-                <h3 class="step-title">Aky je ucel vasej hypoteky?</h3>
-                <p class="step-description">Zvolte, na co budete hypoteku pouzivat. Od ucelu zavisia podmienky a dostupne banky.</p>
+            <!-- Krok 1: Účel (zdieľaný pre oba režimy) -->
+            <div class="wizard-step card hidden" id="step-1">
+                <h3 class="step-title">Aký je účel vašej hypotéky?</h3>
+                <p class="step-description">Zvoľte, na čo budete hypotéku používať. Od účelu závisia podmienky a dostupné banky.</p>
 
                 <div class="form-group purpose-group">
                     <div class="radio-group">
@@ -86,28 +96,28 @@
                             <input type="radio" name="purpose" id="purpose-housing" value="housing">
                             <label for="purpose-housing">
                                 <span class="radio-icon">&#127969;</span>
-                                <span class="radio-label">Vlastne byvanie</span>
+                                <span class="radio-label">Vlastné bývanie</span>
                             </label>
                         </div>
                         <div class="radio-option">
                             <input type="radio" name="purpose" id="purpose-inv-apt" value="investment-apartment">
                             <label for="purpose-inv-apt">
                                 <span class="radio-icon">&#128200;</span>
-                                <span class="radio-label">Investicny byt</span>
+                                <span class="radio-label">Investičný byt</span>
                             </label>
                         </div>
                         <div class="radio-option">
                             <input type="radio" name="purpose" id="purpose-inv-land" value="investment-land">
                             <label for="purpose-inv-land">
                                 <span class="radio-icon">&#127966;</span>
-                                <span class="radio-label">Investicny pozemok</span>
+                                <span class="radio-label">Investičný pozemok</span>
                             </label>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Typ nehnutelnosti</label>
+                    <label>Typ nehnuteľnosti</label>
                     <div class="radio-group">
                         <div class="radio-option">
                             <input type="radio" name="propertyType" id="propertyType-apartment" value="apartment" checked>
@@ -134,32 +144,32 @@
                 </div>
 
                 <div class="wizard-actions">
-                    <div></div>
-                    <button class="btn btn-primary btn-lg wizard-next">Dalej &rarr;</button>
+                    <button class="btn btn-secondary" onclick="Wizard.backToModeSelect()">&#8592; Zmeniť voľbu</button>
+                    <button class="btn btn-primary btn-lg wizard-next">Ďalej &#8594;</button>
                 </div>
             </div>
 
-            <!-- Step 2: Property -->
-            <div class="wizard-step card" data-step="2">
-                <h3 class="step-title">Udaje o nehnutelnosti</h3>
-                <p class="step-description">Zadajte hodnotu nehnutelnosti a vysku vlastnych zdrojov.</p>
+            <!-- Krok: Nehnuteľnosť (len Režim VERIFY – krok 2) -->
+            <div class="wizard-step card hidden" id="step-property">
+                <h3 class="step-title">Údaje o nehnuteľnosti</h3>
+                <p class="step-description">Zadajte hodnotu nehnuteľnosti a výšku vlastných zdrojov.</p>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="propertyValue">Hodnota nehnutelnosti</label>
+                        <label for="propertyValue">Hodnota nehnuteľnosti</label>
                         <div class="input-suffix">
                             <input type="number" id="propertyValue" placeholder="150 000" min="10000" step="1000">
                             <span class="suffix">EUR</span>
                         </div>
-                        <div class="form-hint">Odhadovana trzna hodnota alebo kupna cena</div>
+                        <div class="form-hint">Odhadovaná tržná hodnota alebo kúpna cena</div>
                     </div>
                     <div class="form-group">
-                        <label for="ownFunds">Vlastne zdroje</label>
+                        <label for="ownFunds">Vlastné zdroje</label>
                         <div class="input-suffix">
                             <input type="number" id="ownFunds" placeholder="30 000" min="0" step="1000">
                             <span class="suffix">EUR</span>
                         </div>
-                        <div class="form-hint">Uspory, dary, ina hotovost na financovanie</div>
+                        <div class="form-hint">Úspory, dary, iná hotovosť na financovanie</div>
                     </div>
                 </div>
 
@@ -175,27 +185,27 @@
                 </div>
 
                 <div class="wizard-actions">
-                    <button class="btn btn-secondary wizard-back">&larr; Spat</button>
-                    <button class="btn btn-primary btn-lg wizard-next">Dalej &rarr;</button>
+                    <button class="btn btn-secondary wizard-back">&#8592; Späť</button>
+                    <button class="btn btn-primary btn-lg wizard-next">Ďalej &#8594;</button>
                 </div>
             </div>
 
-            <!-- Step 3: Finances -->
-            <div class="wizard-step card" data-step="3">
-                <h3 class="step-title">Financna situacia</h3>
-                <p class="step-description">Zadajte udaje o prijmoch, veku a existujucich zavazkov.</p>
+            <!-- Krok: Financie (Režim MAX krok 2 / Režim VERIFY krok 3) -->
+            <div class="wizard-step card hidden" id="step-finances">
+                <h3 class="step-title">Finančná situácia</h3>
+                <p class="step-description">Zadajte údaje o príjmoch, veku a existujúcich záväzkoch.</p>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="monthlyIncome">Cisty mesacny prijem</label>
+                        <label for="monthlyIncome">Čistý mesačný príjem</label>
                         <div class="input-suffix">
                             <input type="number" id="monthlyIncome" placeholder="1 500" min="0" step="50">
                             <span class="suffix">EUR</span>
                         </div>
-                        <div class="form-hint">Cisty prijem po zdaneni (vsetky zdroje)</div>
+                        <div class="form-hint">Čistý príjem po zdanení (všetky zdroje)</div>
                     </div>
                     <div class="form-group">
-                        <label for="applicantAge">Vek ziadatela</label>
+                        <label for="applicantAge">Vek žiadateľa</label>
                         <div class="input-suffix">
                             <input type="number" id="applicantAge" placeholder="30" min="18" max="70" step="1">
                             <span class="suffix">rokov</span>
@@ -205,21 +215,21 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="loanTerm">Splatnost</label>
+                        <label for="loanTerm">Splatnosť</label>
                         <div class="input-suffix">
                             <input type="number" id="loanTerm" placeholder="30" min="4" max="30" step="1" value="30">
                             <span class="suffix">rokov</span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="children">Pocet nezaopatrenych deti</label>
+                        <label for="children">Počet nezaopatrených detí</label>
                         <input type="number" id="children" placeholder="0" min="0" max="10" step="1" value="0">
                     </div>
                 </div>
 
-                <!-- Income type (advisor mode) -->
-                <div class="form-group advisor-only">
-                    <label>Typ prijmu</label>
+                <!-- Typ príjmu -->
+                <div class="form-group">
+                    <label>Typ príjmu</label>
                     <div class="radio-group">
                         <div class="radio-option">
                             <input type="radio" name="incomeType" id="income-tpp" value="tpp" checked>
@@ -230,27 +240,27 @@
                         <div class="radio-option">
                             <input type="radio" name="incomeType" id="income-szco" value="szco">
                             <label for="income-szco">
-                                <span class="radio-label">SZCO</span>
+                                <span class="radio-label">SZČO</span>
                             </label>
                         </div>
                         <div class="radio-option">
                             <input type="radio" name="incomeType" id="income-pension" value="pension">
                             <label for="income-pension">
-                                <span class="radio-label">Dochodok</span>
+                                <span class="radio-label">Dôchodok</span>
                             </label>
                         </div>
                         <div class="radio-option">
                             <input type="radio" name="incomeType" id="income-abroad" value="abroad">
                             <label for="income-abroad">
-                                <span class="radio-label">Zo zahranicia</span>
+                                <span class="radio-label">Zo zahraničia</span>
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <!-- Fixation period -->
+                <!-- Fixácia -->
                 <div class="form-group">
-                    <label>Fixacia urokovej sadzby <span data-glossary="Fixacia">(?)</span></label>
+                    <label>Fixácia úrokovej sadzby <span data-glossary="Fixacia">(?)</span></label>
                     <div class="fix-group">
                         <button type="button" class="fix-btn" data-fix="1">1 rok</button>
                         <button type="button" class="fix-btn" data-fix="3">3 roky</button>
@@ -259,17 +269,17 @@
                     </div>
                 </div>
 
-                <!-- Co-applicant -->
+                <!-- Spolužiadateľ -->
                 <div class="form-group">
                     <div class="checkbox-wrapper">
                         <input type="checkbox" id="hasCoApplicant">
-                        <label for="hasCoApplicant">Mam spoluziadatela</label>
+                        <label for="hasCoApplicant">Mám spolužiadateľa</label>
                     </div>
                 </div>
 
                 <div id="coApplicantFields" class="hidden">
                     <div class="form-group">
-                        <label for="coApplicantIncome">Cisty mesacny prijem spoluziadatela</label>
+                        <label for="coApplicantIncome">Čistý mesačný príjem spolužiadateľa</label>
                         <div class="input-suffix">
                             <input type="number" id="coApplicantIncome" placeholder="1 200" min="0" step="50">
                             <span class="suffix">EUR</span>
@@ -277,9 +287,9 @@
                     </div>
                 </div>
 
-                <!-- Existing obligations -->
+                <!-- Existujúce záväzky -->
                 <div class="obligations-section">
-                    <h4>Existujuce zavazky <span data-glossary="DTI">(?)</span></h4>
+                    <h4>Existujúce záväzky <span data-glossary="DTI">(?)</span></h4>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="creditCardLimit">Limit kreditnej karty</label>
@@ -287,7 +297,7 @@
                                 <input type="number" id="creditCardLimit" placeholder="0" min="0" step="100" value="0">
                                 <span class="suffix">EUR</span>
                             </div>
-                            <div class="form-hint">Banka pocita 5% z limitu ako splatku</div>
+                            <div class="form-hint">Banka počíta 5 % z limitu ako splátku</div>
                         </div>
                         <div class="form-group">
                             <label for="overdraftLimit">Kontokorent (limit)</label>
@@ -295,42 +305,42 @@
                                 <input type="number" id="overdraftLimit" placeholder="0" min="0" step="100" value="0">
                                 <span class="suffix">EUR</span>
                             </div>
-                            <div class="form-hint">Banka pocita 5% z limitu ako splatku</div>
+                            <div class="form-hint">Banka počíta 5 % z limitu ako splátku</div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="existingLoanPayments">Existujuce mesacne splatky</label>
+                            <label for="existingLoanPayments">Existujúce mesačné splátky</label>
                             <div class="input-suffix">
                                 <input type="number" id="existingLoanPayments" placeholder="0" min="0" step="10" value="0">
                                 <span class="suffix">EUR/mes</span>
                             </div>
-                            <div class="form-hint">Spotrebne uvery, leasing, ine splatky</div>
+                            <div class="form-hint">Spotrebné úvery, leasing, iné splátky</div>
                         </div>
                         <div class="form-group">
-                            <label for="existingLoanBalance">Zostatok existujucich dlhov</label>
+                            <label for="existingLoanBalance">Zostatok existujúcich dlhov</label>
                             <div class="input-suffix">
                                 <input type="number" id="existingLoanBalance" placeholder="0" min="0" step="100" value="0">
                                 <span class="suffix">EUR</span>
                             </div>
-                            <div class="form-hint">Celkovy zostatok vsetkych dlhov (pre DTI)</div>
+                            <div class="form-hint">Celkový zostatok všetkých dlhov (pre DTI)</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Investment fields -->
+                <!-- Investičné polia -->
                 <div id="investmentFields" class="hidden obligations-section">
-                    <h4>Investicne parametre</h4>
+                    <h4>Investičné parametre</h4>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="monthlyRent">Ocakavany mesacny najem</label>
+                            <label for="monthlyRent">Očakávaný mesačný nájom</label>
                             <div class="input-suffix">
                                 <input type="number" id="monthlyRent" placeholder="600" min="0" step="50">
                                 <span class="suffix">EUR</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="monthlyEnergies">Mesacne energie a poplatky</label>
+                            <label for="monthlyEnergies">Mesačné energie a poplatky</label>
                             <div class="input-suffix">
                                 <input type="number" id="monthlyEnergies" placeholder="100" min="0" step="10" value="100">
                                 <span class="suffix">EUR</span>
@@ -340,61 +350,106 @@
                 </div>
 
                 <div class="wizard-actions">
-                    <button class="btn btn-secondary wizard-back">&larr; Spat</button>
-                    <button class="btn btn-primary btn-lg wizard-next">Vypocitat &rarr;</button>
+                    <button class="btn btn-secondary wizard-back">&#8592; Späť</button>
+                    <button class="btn btn-primary btn-lg wizard-next">Vypočítať &#8594;</button>
                 </div>
             </div>
 
-            <!-- Step 4: Results -->
-            <div class="wizard-step" data-step="4">
+            <!-- Krok: Predbežné výsledky + zadanie nehnuteľnosti (len Režim MAX – krok 3) -->
+            <div class="wizard-step card hidden" id="step-max-result">
+                <h3 class="step-title">Vaša maximálna hypotéka</h3>
+                <p class="step-description">Na základe vašich príjmov a záväzkov sme vypočítali, na akú výšku hypotéky máte nárok v jednotlivých bankách.</p>
+
+                <div id="max-results-table" class="table-wrapper"></div>
+
+                <div class="info-box info-neutral" style="margin-top: 16px;">
+                    <strong>Chcete vidieť plnú analýzu?</strong> Zadajte hodnotu konkrétnej nehnuteľnosti a uvidíte mesačné splátky, grafy a amortizačnú tabuľku.
+                </div>
+
+                <div class="form-row" style="margin-top: 16px;">
+                    <div class="form-group">
+                        <label for="propertyValueMax">Hodnota nehnuteľnosti</label>
+                        <div class="input-suffix">
+                            <input type="number" id="propertyValueMax" placeholder="150 000" min="10000" step="1000">
+                            <span class="suffix">EUR</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ownFundsMax">Vlastné zdroje</label>
+                        <div class="input-suffix">
+                            <input type="number" id="ownFundsMax" placeholder="30 000" min="0" step="1000">
+                            <span class="suffix">EUR</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ltv-indicator-max" class="ltv-indicator hidden">
+                    <div class="ltv-header">
+                        <span class="ltv-label">LTV <span data-glossary="LTV">(?)</span></span>
+                        <span class="ltv-value">0 %</span>
+                    </div>
+                    <div class="ltv-bar">
+                        <div class="ltv-bar-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="ltv-info"></div>
+                </div>
+
+                <div class="wizard-actions">
+                    <button class="btn btn-secondary wizard-back">&#8592; Späť</button>
+                    <button class="btn btn-primary btn-lg" id="btn-full-analysis">Zobraziť plnú analýzu &#8594;</button>
+                </div>
+            </div>
+
+            <!-- Krok 4: Plné výsledky (zdieľaný) -->
+            <div class="wizard-step hidden" id="step-4">
                 <div class="wizard-actions" style="border: none; margin-bottom: 16px; padding: 0;">
-                    <button class="btn btn-secondary wizard-back">&larr; Upravit parametre</button>
+                    <button class="btn btn-secondary wizard-back">&#8592; Upraviť parametre</button>
                     <div></div>
                 </div>
 
                 <div id="results-section">
-                    <!-- Results Summary -->
+                    <!-- Súhrn výsledkov -->
                     <div id="results-summary"></div>
 
-                    <!-- Young Mortgage Check -->
+                    <!-- Hypotéka pre mladých -->
                     <div id="young-mortgage"></div>
 
-                    <!-- Export Bar -->
+                    <!-- Export -->
                     <div class="export-bar">
-                        <button class="btn btn-secondary btn-sm" id="export-pdf-btn">Exportovat PDF</button>
-                        <button class="btn btn-secondary btn-sm" id="export-csv-btn">Exportovat CSV</button>
+                        <button class="btn btn-secondary btn-sm" id="export-pdf-btn">Exportovať PDF</button>
+                        <button class="btn btn-secondary btn-sm" id="export-csv-btn">Exportovať CSV</button>
                     </div>
 
-                    <!-- Bank Comparison -->
+                    <!-- Porovnanie bánk -->
                     <div class="card">
-                        <h3>Porovnanie bank</h3>
+                        <h3>Porovnanie bánk</h3>
                         <div id="comparison-results"></div>
                     </div>
 
-                    <!-- Advisor: Summary Table -->
-                    <div class="card advisor-only" id="comparison-table-section" style="margin-top: 16px;">
-                        <h3>Sumarizacna tabulka</h3>
+                    <!-- Sumarizačná tabuľka -->
+                    <div class="card" id="comparison-table-section" style="margin-top: 16px;">
+                        <h3>Sumarizačná tabuľka</h3>
                         <div class="table-wrapper" id="comparison-table-wrapper"></div>
                     </div>
 
-                    <!-- Charts -->
+                    <!-- Grafy -->
                     <div class="charts-section">
                         <h3>Grafy</h3>
                         <div class="charts-grid">
                             <div class="chart-card">
-                                <h3>Istina vs. uroky</h3>
+                                <h3>Istina vs. úroky</h3>
                                 <div class="chart-container">
                                     <canvas id="chart-pie"></canvas>
                                 </div>
                             </div>
                             <div class="chart-card">
-                                <h3>Porovnanie bank</h3>
+                                <h3>Porovnanie bánk</h3>
                                 <div class="chart-container">
                                     <canvas id="chart-comparison"></canvas>
                                 </div>
                             </div>
                             <div class="chart-card chart-full">
-                                <h3>Vyvoj splatok v case</h3>
+                                <h3>Vývoj splátok v čase</h3>
                                 <div class="chart-container">
                                     <canvas id="chart-amortization"></canvas>
                                 </div>
@@ -402,12 +457,12 @@
                         </div>
                     </div>
 
-                    <!-- Amortization Table -->
+                    <!-- Amortizačná tabuľka -->
                     <div class="card">
                         <div class="amort-controls">
-                            <h3>Amortizacna tabulka <span data-glossary="Anuitna splatka">(?)</span></h3>
+                            <h3>Amortizačná tabuľka <span data-glossary="Anuitna splatka">(?)</span></h3>
                             <div>
-                                <button class="btn btn-sm btn-secondary" id="amort-toggle" data-mode="yearly">Zobrazit mesacne</button>
+                                <button class="btn btn-sm btn-secondary" id="amort-toggle" data-mode="yearly">Zobraziť mesačne</button>
                                 <button class="btn btn-sm btn-secondary" id="export-amort-csv-btn">CSV</button>
                             </div>
                         </div>
@@ -416,39 +471,39 @@
                         </div>
                     </div>
 
-                    <!-- Investment Section -->
+                    <!-- Investičná sekcia -->
                     <div id="investment-section" class="hidden" style="margin-top: 24px;">
                         <div class="card">
-                            <h2>Investicna analyza</h2>
+                            <h2>Investičná analýza</h2>
                             <div id="investment-results"></div>
                         </div>
                         <div class="chart-card" style="margin-top: 16px;">
-                            <h3>Scenare rastu ceny nehnutelnosti</h3>
+                            <h3>Scenáre rastu ceny nehnuteľnosti</h3>
                             <div class="chart-container">
                                 <canvas id="chart-investment"></canvas>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Disclaimer -->
+                    <!-- Upozornenie -->
                     <div class="disclaimer">
-                        <strong>Upozornenie:</strong> Tento nastroj sluzi len na orientacne ucely a nepredstavuje zavaznu ponuku ziadnej banky.
-                        Skutocne podmienky schvalenia hypoteky zavisia od individualneho posudenia bankou.
-                        Urokove sadzby a podmienky sa mozu zmenit. Udaje bank su platne k marcu 2026.
-                        Pre presne informacie kontaktujte financneho poradcu alebo priamo banku.
-                        Vypocty su zalozene na pravidlach NBS a verejne dostupnych informaciach.
+                        <strong>Upozornenie:</strong> Tento nástroj slúži len na orientačné účely a nepredstavuje záväznú ponuku žiadnej banky.
+                        Skutočné podmienky schválenia hypotéky závisia od individuálneho posúdenia bankou.
+                        Úrokové sadzby a podmienky sa môžu zmeniť. Údaje bánk sú platné k marcu 2026.
+                        Pre presné informácie kontaktujte finančného poradcu alebo priamo banku.
+                        Výpočty sú založené na pravidlách NBS a verejne dostupných informáciách.
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- === SECTION: Banks Overview === -->
+        <!-- === SEKCIA: Prehľad bánk === -->
         <section id="section-banks" class="app-section">
-            <h2>Prehlad bank</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 24px;">Urokove sadzby a podmienky 8 bank na Slovensku (stav k marcu 2026).</p>
+            <h2>Prehľad bánk</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 24px;">Úrokové sadzby a podmienky 8 bánk na Slovensku (stav k marcu 2026).</p>
 
             <div class="card" style="margin-bottom: 24px;">
-                <h3>Urokove sadzby podla fixacie</h3>
+                <h3>Úrokové sadzby podľa fixácie</h3>
                 <div class="table-wrapper">
                     <table class="comparison-table" id="banks-rates-table">
                         <thead>
@@ -458,7 +513,7 @@
                                 <th>FIX 3</th>
                                 <th>FIX 5</th>
                                 <th>FIX 10</th>
-                                <th>Kampan do</th>
+                                <th>Kampaň do</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -469,30 +524,30 @@
             <div class="comparison-grid" id="banks-overview-grid"></div>
         </section>
 
-        <!-- === SECTION: Glossary === -->
+        <!-- === SEKCIA: Slovník pojmov === -->
         <section id="section-glossary" class="app-section">
-            <h2>Slovnik pojmov</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 24px;">Vysvetlenie klucovych pojmov pouzivanych pri hypotekach a NBS regulacii.</p>
+            <h2>Slovník pojmov</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 24px;">Vysvetlenie kľúčových pojmov používaných pri hypotékach a regulácii NBS.</p>
             <div id="glossary-content"></div>
         </section>
 
     </div>
 </main>
 
-<!-- Bank Detail Modal -->
+<!-- Modál: Detail banky -->
 <div class="modal-overlay" id="bank-detail-modal"></div>
 
 <!-- Footer -->
 <footer class="app-footer">
-    <p>Hypotekovy poradca &copy; 2026 | Orientacny nastroj - nie je financne poradenstvo</p>
-    <p>Udaje bank platne k marcu 2026 | Zdroj: Prosight, NBS, slavomirmolnar.sk</p>
+    <p>HypoPoradca &copy; 2026 | Orientačný nástroj &ndash; nie je finančné poradenstvo</p>
+    <p>Údaje bánk platné k marcu 2026 | Výpočty podľa pravidiel NBS</p>
 </footer>
 
-<!-- Libraries -->
+<!-- Knižnice -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
 
-<!-- App Scripts -->
+<!-- Aplikačné skripty -->
 <script src="js/config.js"></script>
 <script src="js/utils/formatting.js"></script>
 <script src="js/utils/validation.js"></script>
@@ -509,10 +564,9 @@
 <script src="js/modules/wizard.js"></script>
 <script src="js/app.js"></script>
 
-<!-- Inline: Banks overview rendering -->
+<!-- Inline: Prehľad bánk -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Render banks rates table
     const tbody = document.querySelector('#banks-rates-table tbody');
     if (tbody) {
         BANKS.forEach(bank => {
@@ -520,19 +574,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const campaignFix3 = bank.campaignRates.fix3;
             tr.innerHTML = `
                 <td style="color:${bank.color};font-weight:600">${bank.shortName}</td>
-                <td>${bank.rates.fix1 != null ? Formatting.percent(bank.rates.fix1) : '-'}</td>
+                <td>${bank.rates.fix1 != null ? Formatting.percent(bank.rates.fix1) : '–'}</td>
                 <td>${campaignFix3 != null
                     ? '<strong>' + Formatting.percent(campaignFix3) + '</strong> <s style="color:var(--text-light);font-size:0.75rem">' + Formatting.percent(bank.rates.fix3) + '</s>'
-                    : (bank.rates.fix3 != null ? Formatting.percent(bank.rates.fix3) : '-')}</td>
-                <td>${bank.rates.fix5 != null ? Formatting.percent(bank.rates.fix5) : '-'}</td>
-                <td>${bank.rates.fix10 != null ? Formatting.percent(bank.rates.fix10) : '-'}</td>
-                <td>${bank.campaignValidUntil ? Formatting.date(bank.campaignValidUntil) : 'neurcito'}</td>
+                    : (bank.rates.fix3 != null ? Formatting.percent(bank.rates.fix3) : '–')}</td>
+                <td>${bank.rates.fix5 != null ? Formatting.percent(bank.rates.fix5) : '–'}</td>
+                <td>${bank.rates.fix10 != null ? Formatting.percent(bank.rates.fix10) : '–'}</td>
+                <td>${bank.campaignValidUntil ? Formatting.date(bank.campaignValidUntil) : 'neurčito'}</td>
             `;
             tbody.appendChild(tr);
         });
     }
 
-    // Render bank overview cards
     const grid = document.getElementById('banks-overview-grid');
     if (grid) {
         BANKS.forEach(bank => {
@@ -545,7 +598,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="bank-card-body">
                     <div class="bank-metrics-grid">
                         <div class="bank-metric">
-                            <span class="metric-label">LTV standard</span>
+                            <span class="metric-label">LTV štandard</span>
                             <span class="metric-value">${bank.ltv.standard}%</span>
                         </div>
                         <div class="bank-metric">
@@ -553,20 +606,20 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span class="metric-value">${bank.ltv.max}%</span>
                         </div>
                         <div class="bank-metric">
-                            <span class="metric-label">Prirazka >80%</span>
+                            <span class="metric-label">Prirážka >80%</span>
                             <span class="metric-value">+${Formatting.percent(bank.ltv.surchargeAbove80)}</span>
                         </div>
                         <div class="bank-metric">
-                            <span class="metric-label">Min. uver</span>
+                            <span class="metric-label">Min. úver</span>
                             <span class="metric-value">${Formatting.eur(bank.minLoan, 0)}</span>
                         </div>
                         <div class="bank-metric">
-                            <span class="metric-label">Splatnost</span>
-                            <span class="metric-value">${bank.loanTerms.minYears}-${bank.loanTerms.maxYears} r.</span>
+                            <span class="metric-label">Splatnosť</span>
+                            <span class="metric-value">${bank.loanTerms.minYears}–${bank.loanTerms.maxYears} r.</span>
                         </div>
                         <div class="bank-metric">
                             <span class="metric-label">Ohodnotenie</span>
-                            <span class="metric-value">${bank.fees.propertyValuation === 0 ? 'Zdarma' : Formatting.eur(bank.fees.propertyValuation, 0)}</span>
+                            <span class="metric-value">${bank.fees.propertyValuation === 0 ? 'Zadarmo' : Formatting.eur(bank.fees.propertyValuation, 0)}</span>
                         </div>
                     </div>
                     ${bank.specialFeatures.length > 0 ? '<ul style="margin-top:12px;margin-left:16px;font-size:0.8rem;color:var(--text-secondary)">' + bank.specialFeatures.map(f => '<li>' + f + '</li>').join('') + '</ul>' : ''}

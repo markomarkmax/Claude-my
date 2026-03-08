@@ -282,22 +282,22 @@ const Calculator = {
         const warnings = [];
 
         if (ltv.actualLTV > 80) {
-            warnings.push('LTV presahuje 80% - banka uctuva prirazku k urok. sadzbe');
+            warnings.push('LTV presahuje 80% – banka účtuje prirážku k úrok. sadzbe');
         }
         if (ltv.actualLTV > 90) {
-            warnings.push('LTV presahuje 90% - vacsina bank neschvali');
+            warnings.push('LTV presahuje 90% – väčšina bánk neschváli');
         }
         if (ageAtMaturity > 60) {
-            warnings.push(`Vek pri splatnosti ${ageAtMaturity} rokov - blizi sa k limitu ${bank.loanTerms.maxAgeAtMaturity}`);
+            warnings.push(`Vek pri splatnosti ${ageAtMaturity} rokov – blíži sa k limitu ${bank.loanTerms.maxAgeAtMaturity}`);
         }
         if (ageAtMaturity > bank.loanTerms.maxAgeAtMaturity) {
-            warnings.push(`Vek pri splatnosti ${ageAtMaturity} prekracuje limit ${bank.loanTerms.maxAgeAtMaturity} rokov`);
+            warnings.push(`Vek pri splatnosti ${ageAtMaturity} prekračuje limit ${bank.loanTerms.maxAgeAtMaturity} rokov`);
         }
         if (dsti.maxPayment < 100) {
-            warnings.push('Velmi nizky priestor pre splatku po odpocitani zivotneho minima');
+            warnings.push('Veľmi nízky priestor pre splátku po odpočítaní životného minima');
         }
         if (loan < bank.minLoan) {
-            warnings.push(`Minimalna vyska uveru je ${Formatting.eur(bank.minLoan, 0)}`);
+            warnings.push(`Minimálna výška úveru je ${Formatting.eur(bank.minLoan, 0)}`);
         }
 
         return warnings;
@@ -321,8 +321,8 @@ const Calculator = {
             bonusDuration: cfg.bonusDuration,
             reasons: !eligible ? [
                 age > cfg.maxAge ? `Vek (${age}) presahuje limit ${cfg.maxAge} rokov` : null,
-                monthlyIncome > cfg.averageWage * cfg.maxIncomeFactor ? 'Prijem presahuje 1,6-nasobok priemernej mzdy' : null,
-                propertyValue > cfg.maxPropertyValue ? `Hodnota nehnutelnosti presahuje ${Formatting.eur(cfg.maxPropertyValue, 0)}` : null
+                monthlyIncome > cfg.averageWage * cfg.maxIncomeFactor ? 'Príjem presahuje 1,6-násobok priemernej mzdy' : null,
+                propertyValue > cfg.maxPropertyValue ? `Hodnota nehnuteľnosti presahuje ${Formatting.eur(cfg.maxPropertyValue, 0)}` : null
             ].filter(Boolean) : []
         };
     }
