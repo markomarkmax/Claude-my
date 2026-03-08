@@ -47,7 +47,7 @@ const Wizard = {
         this.wizardMode = null;
         Helpers.$$('.wizard-step').forEach(s => {
             s.classList.remove('active');
-            s.classList.add('hidden');
+            s.style.display = 'none';
         });
         Helpers.hide(Helpers.$('#wizard-stepper'));
         Helpers.show(Helpers.$('#step-mode-select'));
@@ -57,13 +57,17 @@ const Wizard = {
     showStep(step) {
         if (!this.wizardMode) return;
 
-        Helpers.$$('.wizard-step').forEach(s => s.classList.remove('active'));
+        Helpers.$$('.wizard-step').forEach(s => {
+            s.classList.remove('active');
+            s.style.display = 'none';
+        });
 
         const stepId = this.stepMap[this.wizardMode][step];
         const stepEl = Helpers.$(`#${stepId}`);
         if (stepEl) {
             stepEl.classList.add('active');
             stepEl.classList.remove('hidden');
+            stepEl.style.display = 'block';
         }
 
         Helpers.$$('.step-indicator').forEach(ind => {
