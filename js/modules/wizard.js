@@ -45,7 +45,10 @@ const Wizard = {
 
     backToModeSelect() {
         this.wizardMode = null;
-        Helpers.$$('.wizard-step').forEach(s => s.classList.add('hidden'));
+        Helpers.$$('.wizard-step').forEach(s => {
+            s.classList.remove('active');
+            s.classList.add('hidden');
+        });
         Helpers.hide(Helpers.$('#wizard-stepper'));
         Helpers.show(Helpers.$('#step-mode-select'));
         this.currentStep = 0;
@@ -54,11 +57,14 @@ const Wizard = {
     showStep(step) {
         if (!this.wizardMode) return;
 
-        Helpers.$$('.wizard-step').forEach(s => s.classList.add('hidden'));
+        Helpers.$$('.wizard-step').forEach(s => s.classList.remove('active'));
 
         const stepId = this.stepMap[this.wizardMode][step];
         const stepEl = Helpers.$(`#${stepId}`);
-        if (stepEl) stepEl.classList.remove('hidden');
+        if (stepEl) {
+            stepEl.classList.add('active');
+            stepEl.classList.remove('hidden');
+        }
 
         Helpers.$$('.step-indicator').forEach(ind => {
             const s = parseInt(ind.dataset.step);
